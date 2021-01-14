@@ -10,31 +10,33 @@ jobs:
     - uses: actions/checkout@v1
       with:
         fetch-depth: 1
-    - uses: raftario/setup-rust-action@v1
+    - uses: actions-rs/toolchain@v1
       with:
-        cache: false
-    - name: Restore build artifacts
-      uses: actions/download-artifact@v1
-      with:
-        name: target
-        path: target
-      continue-on-error: true
+        toolchain: stable
+        override: true
     - name: Build project
-      run: cargo build
-    - name: Archive build artifacts
-      uses: actions/upload-artifact@v1
+      uses: actions-rs/cargo@v1
       with:
-        name: target
-        path: target
-    - name: Archive binary (Unix)
+        command: build
+        args: --release
+    - name: Strip binary (*nix)
       if: matrix.os != 'windows-latest'
+      run: strip target/release/licenseme
+    - name: Archive binary (Linux)
+      if: matrix.os == 'ubuntu-latest'
       uses: actions/upload-artifact@v1
       with:
-        name: licenseme
-        path: target/debug/licenseme
+        name: Linux
+        path: target/release/licenseme
     - name: Archive binary (Windows)
       if: matrix.os == 'windows-latest'
       uses: actions/upload-artifact@v1
       with:
-        name: licenseme.exe
-        path: target/debug/licenseme.exe
+        name: Windows
+        path: target/release/licenseme.exe
+    - name: Archive binary (macOS)
+      if: matrix.os == 'macOS-latest'
+      uses: actions/upload-artifact@v1
+      with:
+        name: macOS
+        path: target/release/licenseme
