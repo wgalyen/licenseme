@@ -31,10 +31,10 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: licenseme
-        path: target/licenseme
+        path: target/debug/licenseme
     - name: Archive binary (Windows)
       if: matrix.os == 'windows-latest'
       uses: actions/upload-artifact@v1
       with:
         name: licenseme.exe
-        path: target/licenseme.exe
+        path: target/debug/licenseme.exe
