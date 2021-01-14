@@ -27,14 +27,14 @@ jobs:
         name: target
         path: target
     - name: Archive binary (Unix)
-      if: matrix.os != windows-latest
+      if: matrix.os != 'windows-latest'
       uses: actions/upload-artifact@v1
-        with:
-          name: licenseme
-          path: target/licenseme
+      with:
+        name: licenseme
+        path: target/licenseme
     - name: Archive binary (Windows)
-      if: matrix.os == windows-latest
+      if: matrix.os == 'windows-latest'
       uses: actions/upload-artifact@v1
-        with:
-          name: licenseme.exe
-          path: target/licenseme.exe
+      with:
+        name: licenseme.exe
+        path: target/licenseme.exe
